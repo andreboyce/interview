@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Game of Life Tests</title>
+      <meta name="url" content="https://andreboyce.com">
+      <meta name="author" content="andre boyce, mobile@andreboyce.com" />
+   
+      <link rel="stylesheet" href="bootstrap.min.css" />
+
+      <!-- https://www.npmjs.com/package/jasmine-core -->
+
+      <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.4.0/jasmine_favicon.png">
+      <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.4.0/jasmine.css">
+      
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/jasmine.js"></script>
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/jasmine-html.js"></script>
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/boot.js"></script>
+
+      <script type="text/javascript" src="GameOfLife.js"></script>
+   
+   </head>
+   <body>
+    <canvas id="gol"></canvas>
+    <script>
+        var parameters  = { canvas_id: "gol", grid_width : 40, grid_height : 40, canvas_width : 100, canvas_height : 100, 
+                          percentage_of_organisms : 12, xscale : 8, yscale : 8, cycles : 100, delay : 1000, fgcolor: "rgba( 255, 0, 0, 1.0 )", bgcolor: "rgba( 255, 255, 255, 1.0 )" };
+        var gameOfLife = new GameOfLife.GameOfLife( parameters );
+        var conpleteCallback = ()=>{ };
+        gameOfLife.run( conpleteCallback );
+        test();
+        function test()
+        {
+           describe( 'Testing the functionality of the following functions.', ()=>{
+              constructor
+              it('constructor', ()=>{
+              });
+              it('getCanvas', ()=>{
+                 var canvas = gameOfLife.getCanvas();
+                 expect(canvas).not.toBe(null);
+              });
+              it('getContext', ()=>{
+                 var context = gameOfLife.getContext();
+                 expect(context).not.toBe(null);
+              });
+              it('scaleCanvas', ()=>{
+                 expect( function() { gameOfLife.scaleCanvas(); } ).not.toThrow();
+              });
+              it('resizeCanvas', ()=>{
+                 expect( function() { gameOfLife.resizeCanvas( 80, 80 ); } ).not.toThrow();
+              });
+              it('resizeCanvasFullWindow', ()=>{
+                 gameOfLife.resizeCanvasFullWindow();
+                 var canvas = gameOfLife.getCanvas();
+                 expect(canvas.width).toBe(window.innerWidth);
+                 expect(canvas.height).toBe(window.innerHeight);
+              });
+              it('createGrid', ()=>{
+                 var grid = gameOfLife.createGrid();
+                 expect(Array.isArray(grid)).toBe(true);
+                 for( let i = 0; i<grid.length; i++ )
+                 {
+                     expect(Array.isArray(grid[i])).toBe(true);
+                 }
+              });
+              it('createRandomGrid', ()=>{
+                 var grid = gameOfLife.createRandomGrid();
+                 expect(Array.isArray(grid)).toBe(true);
+                 for( let i = 0; i<grid.length; i++ )
+                 {
+                     expect(Array.isArray(grid[i])).toBe(true);
+                 }
+
+                 var num_yes = 0;
+                 var num_no  = 0;
+                 for( let i = 0; i <grid.length; i++ )
+                 {
+                    for( let j = 0; j < grid[i].length; j++ )
+                    {
+                       if( grid[i][j] )
+                          num_yes++;
+                       else
+                          num_no++;
+                    }
+                 }
+                 console.log( "num_yes: " + num_yes );
+                 console.log( "num_no:  " + num_no  );
+                 //expect(num_yes).toBeCloseTo(num_no);
+              });
+              it('updateGrid', ()=>{
+                 expect( function() { 
+                    var grid = gameOfLife.updateGrid(); 
+                    expect(grid).not.toBe(null);
+               }).not.toThrow();
+              });
+              it('updateCell', ()=>{
+                 var grid;
+                 var x = 1;
+                 var y = 1;
+                 var result;
+                 console.log( "//Any live cell with fewer than two live neighbours dies, as if by underpopulation." );
+                 grid = new Array(3);
+                 grid[0] = [0,0,0];
+                 grid[1] = [0,1,0];
+                 grid[2] = [0,0,0];
+                 result = gameOfLife.updateCell( x, y, grid );
+                 console.log( "result: " + result );
+                 expect(result).toBe(false);
+
+                 console.log( "//Any live cell with two or three live neighbours lives on to the next generation." );
+                 grid = new Array(3);
+                 grid[0] = [0,0,0];
+                 grid[1] = [1,1,1];
+                 grid[2] = [0,0,0];
+                 result = gameOfLife.updateCell( x, y, grid );
+                 console.log( "result: " + result );
+                 expect(result).toBe(true);
+
+                 console.log( "//Any live cell with more than three live neighbours dies, as if by overpopulation." );
+                 grid = new Array(3);
+                 grid[0] = [1,1,0];
+                 grid[1] = [1,1,0];
+                 grid[2] = [1,0,0];
+                 var result = gameOfLife.updateCell( x, y, grid );
+                 console.log( "result: " + result );
+                 expect(result).toBe(false);
+
+                 console.log( "//Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction." );
+                 grid = new Array(3);
+                 grid[0] = [1,1,1];
+                 grid[1] = [0,0,0];
+                 grid[2] = [0,0,0];
+                 result = gameOfLife.updateCell( x, y, grid );
+                 console.log( "result: " + result );
+                 expect(result).toBe(true);
+
+                 grid = new Array(3);
+                 grid[0] = [1,1,1];
+                 grid[1] = [1,1,1];
+                 grid[2] = [1,1,1];
+                 result = gameOfLife.updateCell( x, y, grid );
+                 console.log( "result: " + result );
+                 expect(result).toBe(false);
+              });
+              it('clearCanvas', ()=>{
+                 expect( function() { gameOfLife.clearCanvas(); } ).not.toThrow();
+              });
+              it('renderGrid', ()=>{
+                 expect( function() { gameOfLife.renderGrid(); } ).not.toThrow();
+              });
+              it('renderStats', ()=>{
+                 expect( function() { gameOfLife.renderStats(); } ).not.toThrow();
+              });
+              it('run', ()=>{
+                 var interval = gameOfLife.run();
+                 expect(interval).not.toBe(null);
+              });
+              it('destroy', ()=>{
+                 expect( function() { gameOfLife.destroy(); } ).not.toThrow();
+              });
+           });
+        }
+     </script>
+   </body>
+</html>

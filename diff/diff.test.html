@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>diff</title>
+      <link rel="stylesheet" href="bootstrap.min.css" />
+
+      <link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.4.0/jasmine_favicon.png">
+      <link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.4.0/jasmine.css">
+      
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/jasmine.js"></script>
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/jasmine-html.js"></script>
+      <script type="text/javascript" src="jasmine/lib/jasmine-3.4.0/boot.js"></script>
+
+      <script type="text/javascript" src="diff.js"></script>
+
+      <script>
+            //document.onload = test;
+            //window.onload = test;
+            test();
+            function test()
+            {
+               describe( 'Testing the functionality of the following functions.', ()=>{
+                  it('should delete items in the set from the array and return an array without the deleted items', ()=>{
+                     let items = [ 'aaa', 'bbb', 'ccc' ];
+                     let items_to_delete = new Set( ['aaa', 'bbb', 'ddd'] );
+                     let result = deleteitems( items, items_to_delete );
+                     //console.log( "items " + items );
+                     //console.log( "items_to_delete " + items_to_delete );
+                     //console.log( "result " + result );
+                     expect(result.length).toBe(1);
+                  })
+                  it('should generate a string of random ASCII characters starting at ASCII97(a) to 97+range.', ()=>{
+                     let result = generate_random_string( 5, 3 );
+                     //console.log( "result " + result );
+                     //console.log( "result.length " + result.length );
+                     expect(result.length).toBe(5);
+                  })
+                  it('should generate an array of strings string of random ASCII characters starting at ASCII97(a) to 97+range.', ()=>{
+                     let result = generate_array_of_random_strings( 10, 5, 3 );
+                     //console.log( "result " + result );
+                     //console.log( "result.length " + result.length );
+                     //console.log( "result[0].length " + result[0].length );
+                     //charCodeAt(0);
+                     expect(result.length).toBe(10);
+                     expect(result[0].length).toBe(5);
+                  })
+                  it("should compare 2 arrays of strings and produce 2 output arrays. " + 
+                     "first array should contain only strings which were found in first input array but not in the second input array. " + 
+                     "second array should contain only strings which were found in second input array but not in the first input array", ()=>{
+                     let items1 = [ 'aaa', 'bbb', 'ccc' ];
+                     let items2 = [ 'aaa', 'ddd', 'ccc' ];
+                     let result = compare_string_arrays( items1, items2 );
+                     //console.log( "result " + result );
+                     //console.log( "result.length " + result.length );
+                     expect(result.length).toBe(3);
+                     expect(result[0]).toEqual(['bbb']);
+                     expect(result[1]).toEqual(['ddd']);
+                     expect(result[2].has( 'aaa' ) ).toBe( true );
+                     expect(result[2].has( 'ccc' ) ).toBe( true );
+                     expect(result[2].size).toBe(2);
+                  })
+               })
+            }
+         </script>
+   
+   </head>
+   <body>
+   </body>
+</html>

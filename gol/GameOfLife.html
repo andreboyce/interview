@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+  <html lang="en">
+   <head>
+    <meta name="url" content="https://andreboyce.com">
+    <meta name="author" content="andre boyce, mobile@andreboyce.com" />
+    <style>
+      .block{ width: 100%; clear: both; }
+      #gol{ border: 1px solid rgba(128,128,128,0.1); margin: 0px auto; display: block; }
+      body{ margin: 0px 0px; padding: 0px 0px; }
+    </style>
+   </head>
+   <body>
+      <canvas id="gol"></canvas>
+      <script src="GameOfLife.js"></script>
+      <script>
+          var parameters  = { canvas_id: "gol", grid_width : 40, grid_height : 40, canvas_width : 100, canvas_height : 100, 
+                              percentage_of_organisms : 12, xscale : 8, yscale : 8, cycles : 1000, delay : 1000, fgcolor: "rgba( 0, 0, 0, 1.0 )", bgcolor: "rgba( 255, 255, 255, 1.0 )" };
+          var gameOfLife = new GameOfLife.GameOfLife( parameters );
+          var conpleteCallback = ()=>{ };
+          gameOfLife.run( conpleteCallback );
+      </script>
+   </body>
+</html>

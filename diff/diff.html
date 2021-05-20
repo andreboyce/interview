@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>diff</title>
+      <link rel="stylesheet" href="bootstrap.min.css" />
+   </head>
+   <body>
+      <script type="text/javascript" src="diff.js"></script>
+
+      <div class='container'>
+         <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">
+               Usage: 
+               <ul>
+                  <li>Click Generate to create 2 random arrays of sorted strings.</li>
+                  <li>You can also upload your own files instead of generating strings. Or paste into the respective textareas</li>
+                  <li>Click save to download a textfile of the contents of the textarea above.</li>
+                  <li>String Length: The length of each generated string.</li>
+                  <li>Number of Strings: The number of strings generated. Default is 100.</li>
+                  <li>Chacter Range: ASCII 97(a) - 97+Range charcters. Example Range of 25 is a-z. Range of 3 is a-c.</li>
+                  <li><a href='diff.js'>Source in .js</a></li>
+                  <li><a href='diff.test.html'>Tests using Jasmine</a></li>
+               </ul>
+            </div>
+            <div class="col">
+            </div>         
+         </div>
+         <div class="row">
+            <div class="col">
+            </div>
+            <div class="col text-center">
+               <br/>
+               <input type='button' value='Compare' onclick='compare();' /><br/>
+               <input type='button' value='Generate' onclick="generate('if1'); generate('if2'); compare();" /><br/>
+               <input type='button' value='Reset' onclick='reset();' /><br/>
+               <br/>
+            </div>
+            <div class="col">
+            </div>
+         </div>
+         <div class="row">
+               <div class="col">
+               </div>
+               <div class="col text-center">
+                  String Length: <input id='string_length' type='number' step='1' value='4' min='1' max='10' /> <br/>
+                  Chacter Range: <input id='range' type='number' step='1' value='3' min='2' max='25' /> <br/>
+                  Number of Strings: <input id='number_of_strings' type='number' step='10' value='100' min='1' max='10000' /> <br/>
+                  String Seperator: <input id='string_seperator' type='text' value=',' disabled='disabled' /> <br/>
+               </div>
+               <div class="col">
+               </div>
+            </div>
+         <div class="row">
+            <div class="col text-center">
+               Input file 1<br/>
+               <input type='button' value='generate random' onclick="generate('if1')" /><br/>
+               <textarea rows='10' cols='50' id='if1'></textarea><br/>
+               <button type="button" onclick="download('if1');">Save</button><br/>
+               <input id="file1" type="file" onchange="loadfile('if1', 'file1');" /><br/>               
+            </div>
+            <div class="col text-center">
+               Input file 2<br/>
+               <input type='button' value='generate random' onclick="generate('if2')" /><br/>
+               <textarea rows='10' cols='50' id='if2'></textarea><br/>
+               <button type="button" onclick="download('if2');">Save</button><br/>
+               <input id="file2" type="file" onchange="loadfile('if2', 'file2');" /><br/>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+            </div>
+            <div class="col text-center">
+               Common Elements<br/> 
+               <input id='common_elements_length' type='number' value='' disabled='disabled' /> <br/>
+               <textarea rows='10' cols='50' id='common'></textarea><br/>
+            </div>
+            <div class="col">
+            </div>
+         </div>
+         <div class="row">
+            <div class="col text-center">
+               Output file 1<br/>
+               Number of strings: <input id='output_file1_length' type='number' value='' disabled='disabled' /> <br/>
+               <textarea rows='10' cols='50' id='of1'></textarea><br/>
+               <button type="button" onclick="download('of1');">Save</button><br/>
+               <br/>
+            </div>
+            <div class="col text-center">
+               Output file 2<br/>
+               Number of strings: <input id='output_file2_length' type='number' value='' disabled='disabled' /> <br/>
+               <textarea rows='10' cols='50' id='of2'></textarea><br/>
+               <button type="button" onclick="download('of2');">Save</button><br/>
+               <br/>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col text-center">
+            </div>
+         </div>
+      </div>      
+      
+   </body>
+</html>
